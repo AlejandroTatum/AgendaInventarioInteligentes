@@ -1,4 +1,4 @@
-package ed.u2.sorting; // <--- ESTO ES IMPORTANTE
+package ed.u2.sorting;
 
 public class SortStats {
     public String algorithmName;

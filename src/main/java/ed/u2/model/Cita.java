@@ -1,9 +1,9 @@
 package ed.u2.model;
 
 public class Cita implements Comparable<Cita> {
-    private String id;
-    private String apellido;
-    private String fechaHora; // Formato ISO 8601 permite ordenación alfabética directa
+    private final String id;
+    private final String apellido;
+    private final String fechaHora; // Formato ISO 8601 permite ordenación alfabética directa
 
     public Cita(String id, String apellido, String fechaHora) {
         this.id = id;

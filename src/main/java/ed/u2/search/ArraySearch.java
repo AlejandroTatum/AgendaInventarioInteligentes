@@ -2,8 +2,6 @@ package ed.u2.search;
 
 public class ArraySearch {
 
-    // --- Búsquedas Secuenciales ---
-
     public static <T extends Comparable<T>> int findFirst(T[] array, T key) {
         for (int i = 0; i < array.length; i++) {
             if (array[i].compareTo(key) == 0) return i;
@@ -11,14 +9,6 @@ public class ArraySearch {
         return -1;
     }
 
-    /**
-     * Algoritmo de Centinela.
-     * NOTA: En Java, los arrays tienen tamaño fijo. Para que esto funcione puramente
-     * como la teoría, el array debería tener un espacio vacío al final.
-     * Aquí simulamos la lógica asumiendo que el usuario controla el tamaño o aceptando
-     * que en un array lleno no podemos meter el centinela sin copiar todo.
-     * Implementación segura: Copia a un array +1 (costoso pero funcional para la demo).
-     */
     public static <T extends Comparable<T>> int findSentinel(T[] array, T key) {
         int n = array.length;
         // Creamos un array temporal con un espacio extra para el centinela
@@ -37,11 +27,10 @@ public class ArraySearch {
             current = (Comparable<T>) temp[i];
         }
 
-        if (i < n) return i; // Encontrado antes del centinela
+        if (i < n) return i;
         return -1;
     }
 
-    // --- Búsqueda Binaria y Bounds (Rúbrica) ---
 
     public static <T extends Comparable<T>> int binarySearch(T[] array, T key) {
         int low = 0, high = array.length - 1;
@@ -55,10 +44,7 @@ public class ArraySearch {
         return -1;
     }
 
-    /**
-     * LowerBound: Primer elemento que no es menor que key (>= key).
-     * Útil para rangos e inserción ordenada.
-     */
+
     public static <T extends Comparable<T>> int lowerBound(T[] array, T key) {
         int low = 0, high = array.length;
         while (low < high) {
@@ -72,9 +58,7 @@ public class ArraySearch {
         return low;
     }
 
-    /**
-     * UpperBound: Primer elemento que es mayor que key (> key).
-     */
+
     public static <T extends Comparable<T>> int upperBound(T[] array, T key) {
         int low = 0, high = array.length;
         while (low < high) {

@@ -2,42 +2,107 @@ package ed.u2.view;
 
 import ed.u2.sorting.SortStats;
 import java.util.List;
+import java.util.Scanner;
 
 public class ConsoleView {
 
-    // Colores ANSI (Opcional: Si tu consola no los soporta, déjalos como cadenas vacías "")
+    private final Scanner scanner;
+
+    // Colores ANSI
     private static final String RESET = "\u001B[0m";
     private static final String GREEN = "\u001B[32m";
     private static final String YELLOW = "\u001B[33m";
     private static final String CYAN = "\u001B[36m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String RED = "\u001B[31m";
+    private static final String PURPLE = "\u001B[35m";
     private static final String BOLD = "\u001B[1m";
 
-    public void mostrarHeader(String titulo) {
+    public ConsoleView() {
+        this.scanner = new Scanner(System.in);
+    }
+
+    // --- MÉTODOS DE MENÚ ---
+
+    public int mostrarMenuPrincipal() {
+        System.out.println("\n  " + BOLD + "SELECCIONE EL MODO DE EJECUCIÓN:" + RESET);
+        System.out.println("  " + CYAN + "[1]" + RESET + " Demostración Técnica (Análisis de Casos)");
+        System.out.println("  " + CYAN + "[2]" + RESET + " Zona de Pruebas (Consultas del Docente)");
+        System.out.println("  " + CYAN + "[0]" + RESET + " Salir");
+        System.out.print("\n  >> Ingrese opción: ");
+
+        try {
+            String input = scanner.nextLine();
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public void pausar() {
+        System.out.println("\n  (Presione ENTER para continuar...)");
+        scanner.nextLine();
+    }
+
+    // --- NUEVO: MOSTRAR ANÁLISIS DE CASO ---
+
+    public void mostrarAnalisisCaso(String escenario, String complejidad) {
+        System.out.println("\n  " + PURPLE + "╔════ CASO DE ESTUDIO ════════════════════════════════════════╗" + RESET);
+        System.out.println("  " + PURPLE + "║" + RESET + " Escenario:   " + String.format("%-46s", escenario) + PURPLE + "║" + RESET);
+        System.out.println("  " + PURPLE + "║" + RESET + " Complejidad: " + String.format("%-46s", complejidad) + PURPLE + "║" + RESET);
+        System.out.println("  " + PURPLE + "╚═════════════════════════════════════════════════════════════╝" + RESET);
+        esperar(500);
+    }
+
+    // --- MÉTODOS VISUALES ---
+
+    public void animarTitulo(String titulo) {
         System.out.println("\n" + CYAN + "╔══════════════════════════════════════════════════════════════════════╗");
-        System.out.println("║ " + String.format("%-68s", titulo) + " ║");
+        System.out.print("║ ");
+        imprimirEfectoMaquina(String.format("%-68s", titulo));
+        System.out.println(" ║");
         System.out.println("╚══════════════════════════════════════════════════════════════════════╝" + RESET);
     }
 
     public void mostrarSubtitulo(String sub) {
-        System.out.println("\n" + BOLD + ">>> " + sub + RESET);
+        System.out.println();
+        System.out.println(BOLD + ">>> " + sub + RESET);
         System.out.println("------------------------------------------------------------------------");
+        esperar(100);
+    }
+
+    public void mostrarCarga(String accion, int tiempoTotalMs) {
+        System.out.print("  " + YELLOW + "⚡ " + accion + " " + RESET);
+        int tiempoReal = Math.min(tiempoTotalMs, 500);
+        int pasos = 10;
+        int espera = tiempoReal / pasos;
+
+        System.out.print("[");
+        for (int i = 0; i < pasos; i++) {
+            System.out.print("▓");
+            esperar(espera);
+        }
+        System.out.println("] " + GREEN + "OK" + RESET);
+    }
+
+    public void imprimirContexto(String msg) {
+        System.out.println(BLUE + "  [INFO] " + RESET + msg);
+        esperar(300);
     }
 
     public void mostrarResultadosOrdenacion(List<SortStats> stats) {
-        System.out.println("\nResultados de Rendimiento:");
-        System.out.println("┌──────────────────────┬─────────────┬─────────────┬─────────────┐");
-        System.out.println("│ Algoritmo            │ Tiempo      │ Comparac.   │ Movimientos │");
-        System.out.println("├──────────────────────┼─────────────┼─────────────┼─────────────┤");
+        System.out.println("\n  " + BOLD + "Resultados (Mediana 10 corridas):" + RESET);
+        System.out.println("  ┌──────────────────────┬─────────────┬─────────────────┬─────────────┐");
+        System.out.println("  │ Algoritmo            │ Tiempo (ms) │ Comparaciones   │ Movimientos │");
+        System.out.println("  ├──────────────────────┼─────────────┼─────────────────┼─────────────┤");
 
         for (SortStats s : stats) {
-            // Convertimos ns a ms para facilitar lectura
             double ms = s.timeNs / 1_000_000.0;
-            String tiempoStr = String.format("%.3f ms", ms);
-
-            System.out.printf("│ %-20s │ %11s │ %11d │ %11d │\n",
-                    s.algorithmName, tiempoStr, s.comparisons, s.swapsOrMoves);
+            System.out.printf("  │ %-20s │ %11.3f │ %15d │ %11d │\n",
+                    s.algorithmName, ms, s.comparisons, s.swapsOrMoves);
+            esperar(50);
         }
-        System.out.println("└──────────────────────┴─────────────┴─────────────┴─────────────┘");
+        System.out.println("  └──────────────────────┴─────────────┴─────────────────┴─────────────┘");
     }
 
     public void mostrarMensaje(String msg) {
@@ -49,10 +114,25 @@ public class ConsoleView {
     }
 
     public void mostrarAlerta(String msg) {
-        System.out.println("  " + YELLOW + "⚠ " + msg + RESET);
+        System.out.println("  " + RED + "✖ " + msg + RESET); // Rojo para alertas graves
     }
 
     public void mostrarItem(Object item) {
         System.out.println("    └─> " + item.toString());
+    }
+
+    private void imprimirEfectoMaquina(String texto) {
+        for (char c : texto.toCharArray()) {
+            System.out.print(c);
+            esperar(2);
+        }
+    }
+
+    private void esperar(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

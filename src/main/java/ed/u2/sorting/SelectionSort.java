@@ -18,10 +18,9 @@ public class SelectionSort {
                 }
             }
 
-            // Solo hacemos swap si el mínimo no está ya en su lugar
             if (minIdx != i) {
                 swap(array, i, minIdx);
-                stats.swapsOrMoves++; // Contamos intercambio
+                stats.swapsOrMoves++;
             }
         }
 

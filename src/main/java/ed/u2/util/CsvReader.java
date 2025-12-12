@@ -14,12 +14,11 @@ public class CsvReader {
     public static Cita[] loadCitas(String path) {
         List<Cita> list = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String line = br.readLine(); // Saltar cabecera: id;apellido;fechaHora
+            String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 if(line.trim().isEmpty()) continue;
                 String[] parts = line.split(";");
                 if (parts.length >= 3) {
-                    // Citas usa formato ISO 8601, perfecto para ordenar como String
                     list.add(new Cita(parts[0].trim(), parts[1].trim(), parts[2].trim()));
                 }
             }
@@ -30,7 +29,7 @@ public class CsvReader {
     public static Insumo[] loadInventario(String path) {
         List<Insumo> list = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String line = br.readLine(); // Saltar cabecera: id;insumo;stock
+            String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 if(line.trim().isEmpty()) continue;
                 String[] parts = line.split(";");
@@ -50,7 +49,7 @@ public class CsvReader {
     public static List<Paciente> loadPacientesList(String path) {
         List<Paciente> list = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String line = br.readLine(); // Saltar cabecera: id;apellido;prioridad
+            String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 if(line.trim().isEmpty()) continue;
                 String[] parts = line.split(";");

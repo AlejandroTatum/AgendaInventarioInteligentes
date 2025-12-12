@@ -14,13 +14,13 @@ public class InsertionSort {
             int j = i - 1;
 
             while (j >= 0) {
-                stats.comparisons++; // Contamos la comparación del while
+                stats.comparisons++;
                 if (array[j].compareTo(key) > 0) {
-                    array[j + 1] = array[j]; // Movimiento (desplazamiento)
+                    array[j + 1] = array[j];
                     stats.swapsOrMoves++;
                     j--;
                 } else {
-                    break; // Salimos si encontramos la posición correcta
+                    break;
                 }
             }
             array[j + 1] = key;

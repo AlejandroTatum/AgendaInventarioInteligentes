@@ -1,9 +1,9 @@
 package ed.u2.model;
 
 public class Insumo implements Comparable<Insumo> {
-    private String id;
-    private String nombre;
-    private int stock;
+    private final String id;
+    private final String nombre;
+    private final int stock;
 
     public Insumo(String id, String nombre, int stock) {
         this.id = id;
