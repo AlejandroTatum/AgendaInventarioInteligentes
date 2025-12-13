@@ -54,6 +54,20 @@ public class ConsoleView {
         esperar(500);
     }
 
+    // --- REQUERIMIENTO 2: MATRIZ DE DECISIÓN ---
+    public void mostrarMatrizDecision() {
+        System.out.println("\n  " + BOLD + "MATRIZ DE DECISIÓN (CONCLUSIONES):" + RESET);
+        System.out.println("  ┌───────────────────────────────────────┬──────────────────────────────────┐");
+        System.out.println("  │ ESCENARIO                             │ ALGORITMO / ESTRUCTURA RECOMENDADA│");
+        System.out.println("  ├───────────────────────────────────────┼──────────────────────────────────┤");
+        System.out.println("  │ Datos casi ordenados (Agenda)         │ " + GREEN + "Insertion Sort" + RESET + " (O(n))           │");
+        System.out.println("  │ Búsquedas por Prioridad (Pacientes)   │ " + GREEN + "SLL + FindAll" + RESET + "                    │");
+        System.out.println("  │ Inventario Estático y Grande          │ " + GREEN + "Sort(1 vez) + Búsqueda Binaria" + RESET + "   │");
+        System.out.println("  │ Datos Inversos (Peor caso)            │ " + GREEN + "Evitar Insertion Sort" + RESET + "            │");
+        System.out.println("  └───────────────────────────────────────┴──────────────────────────────────┘");
+        esperar(500);
+    }
+
     // --- MÉTODOS VISUALES ---
 
     public void animarTitulo(String titulo) {
