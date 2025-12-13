@@ -12,6 +12,13 @@ Diseñar e implementar un módulo que gestione citas y stock aplicando ordenaci�
 -----
 # Decisiones de diseño 
 
+### Datasets: 
+-  Citas_100.csv
+-  Citas_100_casi_ordenadas.csv
+-  Inventario_500_inverso.csv
+-  Pacientes_500.csv
+
+
 ### Estructuras de datos
 - *Arreglos*: utilizados para permitir acceso directo por índice, facilitando la ordenación y la búsqueda binaria.
 - *Listas simplemente enlazadas (SLL)*: empleadas cuando se prioriza la flexibilidad en inserciones, usando únicamente búsqueda secuencial.
