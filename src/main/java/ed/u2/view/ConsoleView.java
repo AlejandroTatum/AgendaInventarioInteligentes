@@ -44,31 +44,69 @@ public class ConsoleView {
         scanner.nextLine();
     }
 
-    // --- NUEVO: MOSTRAR ANÁLISIS DE CASO ---
+    // --- ANÁLISIS DE CASO (CORREGIDO: ALINEACIÓN MILIMÉTRICA) ---
 
     public void mostrarAnalisisCaso(String escenario, String complejidad) {
-        System.out.println("\n  " + PURPLE + "╔════ CASO DE ESTUDIO ════════════════════════════════════════╗" + RESET);
+        // CÁLCULO DE ALINEACIÓN:
+        // Ancho interno total = 14 (label " Escenario:   ") + 46 (valor) = 60 caracteres.
+        // Borde superior: "╔" + 4(=) + 1( ) + 15(TXT) + 1( ) + 39(=) + "╗" = 60 internos.
+        // Borde inferior: "╚" + 60(=) + "╝"
+
+        String top    = "╔════ CASO DE ESTUDIO ═══════════════════════════════════════╗";
+        String bottom = "╚════════════════════════════════════════════════════════════╝";
+
+        System.out.println("\n  " + PURPLE + top + RESET);
+        // Usamos %-46s para asegurar que el contenido rellene exactamente hasta el borde derecho
         System.out.println("  " + PURPLE + "║" + RESET + " Escenario:   " + String.format("%-46s", escenario) + PURPLE + "║" + RESET);
         System.out.println("  " + PURPLE + "║" + RESET + " Complejidad: " + String.format("%-46s", complejidad) + PURPLE + "║" + RESET);
-        System.out.println("  " + PURPLE + "╚═════════════════════════════════════════════════════════════╝" + RESET);
-        esperar(500);
+        System.out.println("  " + PURPLE + bottom + RESET);
+        esperar(300);
     }
 
-    // --- REQUERIMIENTO 2: MATRIZ DE DECISIÓN ---
+    // --- MATRIZ DE DECISIÓN ---
     public void mostrarMatrizDecision() {
         System.out.println("\n  " + BOLD + "MATRIZ DE DECISIÓN (CONCLUSIONES):" + RESET);
-        System.out.println("  ┌───────────────────────────────────────┬──────────────────────────────────┐");
-        System.out.println("  │ ESCENARIO                             │ ALGORITMO / ESTRUCTURA RECOMENDADA│");
-        System.out.println("  ├───────────────────────────────────────┼──────────────────────────────────┤");
-        System.out.println("  │ Datos casi ordenados (Agenda)         │ " + GREEN + "Insertion Sort" + RESET + " (O(n))           │");
-        System.out.println("  │ Búsquedas por Prioridad (Pacientes)   │ " + GREEN + "SLL + FindAll" + RESET + "                    │");
-        System.out.println("  │ Inventario Estático y Grande          │ " + GREEN + "Sort(1 vez) + Búsqueda Binaria" + RESET + "   │");
-        System.out.println("  │ Datos Inversos (Peor caso)            │ " + GREEN + "Evitar Insertion Sort" + RESET + "            │");
-        System.out.println("  └───────────────────────────────────────┴──────────────────────────────────┘");
+
+        String border = "  ┌───────────────────────────────────────┬─────────────────────────────────────┐";
+        System.out.println(border);
+        System.out.println("  │ ESCENARIO                             │ ALGORITMO / ESTRUCTURA RECOMENDADA  │");
+        System.out.println("  ├───────────────────────────────────────┼─────────────────────────────────────┤");
+
+        imprimirFilaMatriz("Datos casi ordenados (Agenda)", "Insertion Sort (O(n))", GREEN);
+        imprimirFilaMatriz("Búsquedas por Prioridad (Pacientes)", "SLL + FindAll", GREEN);
+        imprimirFilaMatriz("Inventario Estático y Grande", "Sort(1 vez) + Búsqueda Binaria", GREEN);
+        imprimirFilaMatriz("Datos Inversos (Peor caso)", "Selection Sort (Estable)", GREEN);
+
+        System.out.println("  └───────────────────────────────────────┴─────────────────────────────────────┘");
         esperar(500);
     }
 
-    // --- MÉTODOS VISUALES ---
+    private void imprimirFilaMatriz(String col1, String col2, String color) {
+        System.out.printf("  │ %-37s │ " + color + "%-35s" + RESET + " │\n", col1, col2);
+    }
+
+    // --- TABLA DE RESULTADOS ---
+    public void mostrarResultadosOrdenacion(List<SortStats> stats) {
+        System.out.println("\n  " + BOLD + "Resultados (Mediana 10 corridas):" + RESET);
+
+        String border = "  ┌──────────────────────┬──────────────┬─────────────────┬───────────────┐";
+        String middle = "  ├──────────────────────┼──────────────┼─────────────────┼───────────────┤";
+        String bottom = "  └──────────────────────┴──────────────┴─────────────────┴───────────────┘";
+
+        System.out.println(border);
+        System.out.printf("  │ %-20s │ %-12s │ %-15s │ %-13s │\n", "Algoritmo", "Tiempo (ms)", "Comparaciones", "Movimientos");
+        System.out.println(middle);
+
+        for (SortStats s : stats) {
+            double ms = s.timeNs / 1_000_000.0;
+            System.out.printf("  │ %-20s │ %12.3f │ %,15d │ %,13d │\n",
+                    s.algorithmName, ms, s.comparisons, s.swapsOrMoves);
+            esperar(50);
+        }
+        System.out.println(bottom);
+    }
+
+    // --- MÉTODOS VISUALES GENÉRICOS ---
 
     public void animarTitulo(String titulo) {
         System.out.println("\n" + CYAN + "╔══════════════════════════════════════════════════════════════════════╗");
@@ -79,18 +117,19 @@ public class ConsoleView {
     }
 
     public void mostrarSubtitulo(String sub) {
-        System.out.println();
-        System.out.println(BOLD + ">>> " + sub + RESET);
+        System.out.println("\n" + BOLD + ">>> " + sub + RESET);
         System.out.println("------------------------------------------------------------------------");
         esperar(100);
     }
 
+    public void mostrarSubHeader(String msg) {
+        System.out.println("\n  " + CYAN + "--- " + msg + " ---" + RESET);
+    }
+
     public void mostrarCarga(String accion, int tiempoTotalMs) {
         System.out.print("  " + YELLOW + "⚡ " + accion + " " + RESET);
-        int tiempoReal = Math.min(tiempoTotalMs, 500);
         int pasos = 10;
-        int espera = tiempoReal / pasos;
-
+        int espera = Math.min(tiempoTotalMs, 500) / pasos;
         System.out.print("[");
         for (int i = 0; i < pasos; i++) {
             System.out.print("▓");
@@ -104,32 +143,9 @@ public class ConsoleView {
         esperar(300);
     }
 
-    public void mostrarResultadosOrdenacion(List<SortStats> stats) {
-        System.out.println("\n  " + BOLD + "Resultados (Mediana 10 corridas):" + RESET);
-        System.out.println("  ┌──────────────────────┬─────────────┬─────────────────┬─────────────┐");
-        System.out.println("  │ Algoritmo            │ Tiempo (ms) │ Comparaciones   │ Movimientos │");
-        System.out.println("  ├──────────────────────┼─────────────┼─────────────────┼─────────────┤");
-
-        for (SortStats s : stats) {
-            double ms = s.timeNs / 1_000_000.0;
-            System.out.printf("  │ %-20s │ %11.3f │ %15d │ %11d │\n",
-                    s.algorithmName, ms, s.comparisons, s.swapsOrMoves);
-            esperar(50);
-        }
-        System.out.println("  └──────────────────────┴─────────────┴─────────────────┴─────────────┘");
-    }
-
-    public void mostrarMensaje(String msg) {
-        System.out.println("  • " + msg);
-    }
-
-    public void mostrarExito(String msg) {
-        System.out.println("  " + GREEN + "✔ " + msg + RESET);
-    }
-
-    public void mostrarAlerta(String msg) {
-        System.out.println("  " + RED + "✖ " + msg + RESET); // Rojo para alertas graves
-    }
+    public void mostrarMensaje(String msg) { System.out.println("  • " + msg); }
+    public void mostrarExito(String msg) { System.out.println("  " + GREEN + "✔ " + msg + RESET); }
+    public void mostrarAlerta(String msg) { System.out.println("  " + RED + "✖ " + msg + RESET); }
 
     public void mostrarItem(Object item) {
         System.out.println("    └─> " + item.toString());
@@ -143,10 +159,6 @@ public class ConsoleView {
     }
 
     private void esperar(int ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        try { Thread.sleep(ms); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
     }
 }
