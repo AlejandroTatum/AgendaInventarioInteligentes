@@ -11,12 +11,11 @@ public class ArraySearch {
 
     public static <T extends Comparable<T>> int findSentinel(T[] array, T key) {
         int n = array.length;
-        // Creamos un array temporal con un espacio extra para el centinela
-        // Nota: En C++ esto se hace sobre memoria reservada, en Java es menos natural.
+        // Array temporal con espacio para el centinela
         Object[] temp = new Object[n + 1];
         System.arraycopy(array, 0, temp, 0, n);
 
-        temp[n] = key; // Colocar centinela
+        temp[n] = key; // Centinela
         int i = 0;
 
         @SuppressWarnings("unchecked")

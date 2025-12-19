@@ -15,7 +15,7 @@ public class Insumo implements Comparable<Insumo> {
 
     @Override
     public int compareTo(Insumo other) {
-        // Orden ascendente por stock (necesario para la búsqueda binaria posterior)
+        // Orden ascendente por stock
         return Integer.compare(this.stock, other.stock);
     }
 

@@ -47,16 +47,11 @@ public class ConsoleView {
     // --- ANÁLISIS DE CASO (CORREGIDO: ALINEACIÓN MILIMÉTRICA) ---
 
     public void mostrarAnalisisCaso(String escenario, String complejidad) {
-        // CÁLCULO DE ALINEACIÓN:
-        // Ancho interno total = 14 (label " Escenario:   ") + 46 (valor) = 60 caracteres.
-        // Borde superior: "╔" + 4(=) + 1( ) + 15(TXT) + 1( ) + 39(=) + "╗" = 60 internos.
-        // Borde inferior: "╚" + 60(=) + "╝"
 
         String top    = "╔════ CASO DE ESTUDIO ═══════════════════════════════════════╗";
         String bottom = "╚════════════════════════════════════════════════════════════╝";
 
         System.out.println("\n  " + PURPLE + top + RESET);
-        // Usamos %-46s para asegurar que el contenido rellene exactamente hasta el borde derecho
         System.out.println("  " + PURPLE + "║" + RESET + " Escenario:   " + String.format("%-46s", escenario) + PURPLE + "║" + RESET);
         System.out.println("  " + PURPLE + "║" + RESET + " Complejidad: " + String.format("%-46s", complejidad) + PURPLE + "║" + RESET);
         System.out.println("  " + PURPLE + bottom + RESET);
