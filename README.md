@@ -128,4 +128,45 @@ cd AgendaInventarioInteligentes
 - Mark Gonzales
 - Steven Jumbo
 - Gyna Yupanqui
-```
+
+## Demo de ejecución
+
+Al ejecutar la opción `1. Demostración Técnica`, el sistema compara algoritmos de ordenamiento y búsqueda sobre los datasets del proyecto.
+
+```txt
+>>> DEMOSTRACIÓN COMPLETA (Benchmark)
+
+>>> 1. AGENDA DE CITAS
+Archivo fuente: src/main/java/data/citas_100_casi_ordenadas.csv
+
+Escenario:   Datos casi ordenados (Agenda al día)
+Complejidad: Mejor Caso para Insertion Sort: O(n)
+
+Resultados (Mediana 10 corridas):
+┌──────────────────────┬──────────────┬─────────────────┬───────────────┐
+│ Algoritmo            │ Tiempo (ms)  │ Comparaciones   │ Movimientos   │
+├──────────────────────┼──────────────┼─────────────────┼───────────────┤
+│ Bubble Sort          │        0.316 │           4,797 │           341 │
+│ Insertion Sort       │        0.001 │              99 │             0 │
+│ Selection Sort       │        0.248 │           4,950 │             5 │
+└──────────────────────┴──────────────┴─────────────────┴───────────────┘
+
+>>> 3. INVENTARIO DE INSUMOS
+
+Escenario:   Ordenación de Datos Inversos
+Complejidad: Peor Caso para Insertion Sort: O(n^2)
+
+Resultados (Mediana 10 corridas):
+┌──────────────────────┬──────────────┬─────────────────┬───────────────┐
+│ Algoritmo            │ Tiempo (ms)  │ Comparaciones   │ Movimientos   │
+├──────────────────────┼──────────────┼─────────────────┼───────────────┤
+│ Bubble Sort          │        0.873 │         124,750 │       124,750 │
+│ Insertion Sort       │        0.717 │         124,750 │       124,750 │
+│ Selection Sort       │        0.483 │         124,750 │           250 │
+└──────────────────────┴──────────────┴─────────────────┴───────────────┘
+
+MATRIZ DE DECISIÓN:
+- Datos casi ordenados: Insertion Sort
+- Búsquedas por prioridad: SLL + FindAll
+- Inventario estático y grande: Ordenar una vez + Búsqueda Binaria
+- Datos inversos: Selection Sort
