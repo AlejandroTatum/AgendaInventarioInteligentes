@@ -74,8 +74,8 @@ El proyecto incluye Maven Wrapper, por lo que no es necesario instalar Maven glo
 ### Clonar el repositorio
 
 ```bash
-git clone https://github.com/AlejandroTatum/AgendaInventarioInteligentes.git
-cd AgendaInventarioInteligentes
+git clone https://github.com/AlejandroTatum/hospital-appointment-inventory.git
+cd hospital-appointment-inventory
 ```
 
 ### Compilar
