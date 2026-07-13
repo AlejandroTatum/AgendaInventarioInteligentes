@@ -1,4 +1,3 @@
-```md
 # Agenda e Inventarios Inteligentes
 
 Proyecto académico en Java para gestionar citas médicas, pacientes e inventario hospitalario usando estructuras de datos, algoritmos de búsqueda, algoritmos de ordenamiento y datasets en CSV.
@@ -170,3 +169,7 @@ MATRIZ DE DECISIÓN:
 - Búsquedas por prioridad: SLL + FindAll
 - Inventario estático y grande: Ordenar una vez + Búsqueda Binaria
 - Datos inversos: Selection Sort
+
+## Estado del proyecto
+
+Proyecto académico concluido para la materia de Estructura de Datos. Es una aplicación educativa de consola, no un sistema hospitalario de producción.
